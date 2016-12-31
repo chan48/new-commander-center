@@ -32,7 +32,7 @@ export const setPassword = (value = '') => ({
   payload: value,
 });
 
-export const trySignUp = () => (dispatch, getState) => new Promise((resolve) => {
+export const trySignUp = () => (dispatch, getState) => new Promise(() => {
   dispatch({
     type: TRY_SIGN_UP,
   });
@@ -45,20 +45,15 @@ export const trySignUp = () => (dispatch, getState) => new Promise((resolve) => 
   } = getState().signUp;
 
   AWSCognitoManager.signUp(username, email, password)
-  .then(() => {
-    dispatch({
-      type: ON_SIGN_UP_RESPONSE,
-      isSuccess: true,
-    });
-  })
-  .catch(err => dispatch({
+  .then(() => dispatch({
+    type: ON_SIGN_UP_RESPONSE,
+    isSuccess: true,
+  }))
+  .catch(error => dispatch({
     type: ON_SIGN_UP_RESPONSE,
     isSuccess: false,
-    error: err.toString(),
-  }))
-  .then(() => {
-    resolve();
-  });
+    error,
+  }));
 });
 
 // ------------------------------------

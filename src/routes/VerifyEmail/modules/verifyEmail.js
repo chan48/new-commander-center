@@ -21,7 +21,7 @@ export const setVerificationCode = (value = '') => ({
   payload: value,
 });
 
-export const tryVerifyEmail = () => (dispatch, getState) => new Promise((resolve) => {
+export const tryVerifyEmail = () => (dispatch, getState) => new Promise(() => {
   dispatch({
     type: TRY_VERIFY_EMAIL,
   });
@@ -31,20 +31,15 @@ export const tryVerifyEmail = () => (dispatch, getState) => new Promise((resolve
   } = getState().verifyEmail;
 
   AWSCognitoManager.verifyEmail(verificationCode)
-  .then(() => {
-    dispatch({
-      type: ON_VERIFY_EMAIL_RESPONSE,
-      isSuccess: true,
-    });
-  })
-  .catch(err => dispatch({
+  .then(() => dispatch({
+    type: ON_VERIFY_EMAIL_RESPONSE,
+    isSuccess: true,
+  }))
+  .catch(error => dispatch({
     type: ON_VERIFY_EMAIL_RESPONSE,
     isSuccess: false,
-    error: err,
-  }))
-  .then(() => {
-    resolve();
-  });
+    error,
+  }));
 });
 
 // ------------------------------------

@@ -27,7 +27,7 @@ export const setPassword = (value = '') => ({
   payload: value,
 });
 
-export const tryLogIn = () => (dispatch, getState) => new Promise((resolve) => {
+export const tryLogIn = () => (dispatch, getState) => new Promise(() => {
   dispatch({
     type: TRY_LOG_IN,
   });
@@ -38,20 +38,15 @@ export const tryLogIn = () => (dispatch, getState) => new Promise((resolve) => {
   } = getState().logIn;
 
   AWSCognitoManager.logIn(username, password)
-  .then(() => {
-    dispatch({
-      type: ON_LOG_IN_RESPONSE,
-      isSuccess: true,
-    });
-  })
-  .catch(err => dispatch({
+  .then(() => dispatch({
+    type: ON_LOG_IN_RESPONSE,
+    isSuccess: true,
+  }))
+  .catch(error => dispatch({
     type: ON_LOG_IN_RESPONSE,
     isSuccess: false,
-    error: err,
-  }))
-  .then(() => {
-    resolve();
-  });
+    error,
+  }));
 });
 
 // ------------------------------------
