@@ -5,12 +5,6 @@ import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
 import createRoutes from './routes';
 
-// Initialize the Amazon Cognito credentials provider
-AWS.config.region = 'ap-northeast-2'; // Region
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: 'ap-northeast-2:9f9cfb01-954c-482c-b54c-43a7198c6c0d',
-});
-
 const store = createStore();
 
 // ========================================================

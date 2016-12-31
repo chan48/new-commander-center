@@ -15,6 +15,9 @@ const Header = () => (
     <Link to='/signUp' activeClassName='route--active'>
       Sign Up
     </Link>
+    <Link to='/logIn' activeClassName='route--active'>
+      Log In
+    </Link>
   </div>
 );
 

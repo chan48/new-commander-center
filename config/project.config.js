@@ -20,7 +20,6 @@ const config = {
   dir_public : 'public',
   dir_server : 'server',
   dir_test   : 'tests',
-  dir_lib: 'lib',
 
   // ----------------------------------
   // Server Configuration
@@ -85,8 +84,8 @@ config.globals = {
   __TEST__     : config.env === 'test',
   __COVERAGE__ : !argv.watch && config.env === 'test',
   __BASENAME__ : JSON.stringify(process.env.BASENAME || ''),
-  __AWS_COGNITO_USER_POOL_ID__: '"ap-northeast-2_zuJXfboqp"',
-  __AWS_COGNITO_APP_ID__: '"7n5v4d292ehit01b98a0l76u9n"',
+  __AWS_COGNITO_USER_POOL_ID__: '"ap-northeast-2_JyISKqO00"',
+  __AWS_COGNITO_APP_ID__: '"ij0scdsr89obt63qc1i64iaid"',
 };
 
 // ------------------------------------
@@ -116,7 +115,6 @@ config.paths = {
   client : base.bind(null, config.dir_client),
   public : base.bind(null, config.dir_public),
   dist   : base.bind(null, config.dir_dist),
-  lib : base.bind(null, config.dir_lib),
 };
 
 // ========================================================

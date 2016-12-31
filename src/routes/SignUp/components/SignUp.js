@@ -1,4 +1,5 @@
 import React from 'react';
+import { SignUpStates } from '../modules/signUp';
 
 const SignUp = props => (
   <div style={{ margin: '0 auto' }} >
@@ -14,9 +15,9 @@ const SignUp = props => (
       Sign Up
     </button>
 
-    <h2>{JSON.stringify(props.isWaitingResponse)}</h2>
+    <h2>{JSON.stringify(props.currentState)}</h2>
     <h2>{JSON.stringify(props.isSuccess)}</h2>
-    <h2>{JSON.stringify(props.responseData)}</h2>
+    <h2>{JSON.stringify(props.error)}</h2>
   </div>
 );
 
@@ -28,9 +29,9 @@ SignUp.propTypes = {
   userName: React.PropTypes.string.isRequired,
   password: React.PropTypes.string.isRequired,
   email: React.PropTypes.string.isRequired,
-  isWaitingResponse: React.PropTypes.bool.isRequired,
+  currentState: React.PropTypes.string.isRequired,
   isSuccess: React.PropTypes.bool.isRequired,
-  responseData: React.PropTypes.any,
+  error: React.PropTypes.any,
 };
 
 export default SignUp;

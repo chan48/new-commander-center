@@ -3,27 +3,22 @@ import AWSCognitoManager from '../../../AWSCognitoManager';
 // ------------------------------------
 // Action Types
 // ------------------------------------
-export const SET_USER_NAME = 'SET_USER_NAME';
-export const SET_EMAIL = 'SET_EMAIL';
+export const SET_ID = 'SET_USER_NAME';
 export const SET_PASSWORD = 'SET_PASSWORD';
-export const TRY_SIGN_UP = 'TRY_SIGN_UP';
-export const ON_SIGN_UP_RESPONSE = 'ON_SIGN_UP_RESPONSE';
+export const TRY_LOG_IN = 'TRY_LOG_IN';
+export const ON_LOG_IN_RESPONSE = 'ON_LOG_IN_RESPONSE';
 
-export const SignUpStates = {
+export const LogInStates = {
   WRITING_ID: 'WRITING_INFO',
   WAITING_RESPONSE: 'WAITING_RESPONSE',
   ON_RESPONSE: 'ON_RESPONSE',
 };
+
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const setUserName = (value = '') => ({
-  type: SET_USER_NAME,
-  payload: value,
-});
-
-export const setEmail = (value = '') => ({
-  type: SET_EMAIL,
+export const setID = (value = '') => ({
+  type: SET_ID,
   payload: value,
 });
 
@@ -32,29 +27,27 @@ export const setPassword = (value = '') => ({
   payload: value,
 });
 
-export const trySignUp = () => (dispatch, getState) => new Promise((resolve) => {
+export const tryLogIn = () => (dispatch, getState) => new Promise((resolve) => {
   dispatch({
-    type: TRY_SIGN_UP,
+    type: TRY_LOG_IN,
   });
 
-  console.log(getState());
   const {
-    email,
-    userName,
+    id,
     password,
-  } = getState().signUp;
+  } = getState().logIn;
 
-  AWSCognitoManager.signUp(userName, email, password)
+  AWSCognitoManager.logIn(id, password)
   .then(() => {
     dispatch({
-      type: ON_SIGN_UP_RESPONSE,
+      type: ON_LOG_IN_RESPONSE,
       isSuccess: true,
     });
   })
   .catch(err => dispatch({
-    type: ON_SIGN_UP_RESPONSE,
+    type: ON_LOG_IN_RESPONSE,
     isSuccess: false,
-    error: err,
+    payload: err,
   }))
   .then(() => {
     resolve();
@@ -66,18 +59,17 @@ export const trySignUp = () => (dispatch, getState) => new Promise((resolve) => 
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_USER_NAME]: (state, action) => ({ ...state, userName: action.payload }),
-  [SET_EMAIL]: (state, action) => ({ ...state, email: action.payload }),
+  [SET_ID]: (state, action) => ({ ...state, id: action.payload }),
   [SET_PASSWORD]: (state, action) => ({ ...state, password: action.payload }),
-  [TRY_SIGN_UP]: state => ({
+  [TRY_LOG_IN]: state => ({
     ...state,
-    currentState: SignUpStates.WAITING_RESPONSE,
+    currentState: LogInStates.WAITING_RESPONSE,
   }),
-  [ON_SIGN_UP_RESPONSE]: (state, action) => ({
+  [ON_LOG_IN_RESPONSE]: (state, action) => ({
     ...state,
-    currentState: SignUpStates.ON_RESPONSE,
+    currentState: LogInStates.ON_RESPONSE,
     isSuccess: action.isSuccess,
-    error: action.error,
+    error: action.payload,
   }),
 };
 
@@ -88,11 +80,11 @@ const initialState = {
   userName: '',
   password: '',
   email: '',
-  currentState: SignUpStates.WRITING_ID,
+  currentState: LogInStates.WRITING_INFO,
   isSuccess: false,
   error: null,
 };
-export default function signUpReducer(state = initialState, action) {
+export default function logInReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;
