@@ -18,6 +18,9 @@ const Header = () => (
     <Link to='/logIn' activeClassName='route--active'>
       Log In
     </Link>
+    <Link to='/verifyEmail' activeClassName='route--active'>
+      verifyEmail
+    </Link>
   </div>
 );
 

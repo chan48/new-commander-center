@@ -3,13 +3,13 @@ import AWSCognitoManager from '../../../AWSCognitoManager';
 // ------------------------------------
 // Action Types
 // ------------------------------------
-export const SET_ID = 'SET_USER_NAME';
+export const SET_USERNAME = 'SET_USERNAME';
 export const SET_PASSWORD = 'SET_PASSWORD';
 export const TRY_LOG_IN = 'TRY_LOG_IN';
 export const ON_LOG_IN_RESPONSE = 'ON_LOG_IN_RESPONSE';
 
 export const LogInStates = {
-  WRITING_ID: 'WRITING_INFO',
+  WRITING_INFO: 'WRITING_INFO',
   WAITING_RESPONSE: 'WAITING_RESPONSE',
   ON_RESPONSE: 'ON_RESPONSE',
 };
@@ -17,8 +17,8 @@ export const LogInStates = {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const setID = (value = '') => ({
-  type: SET_ID,
+export const setUsername = (value = '') => ({
+  type: SET_USERNAME,
   payload: value,
 });
 
@@ -33,11 +33,11 @@ export const tryLogIn = () => (dispatch, getState) => new Promise((resolve) => {
   });
 
   const {
-    id,
+    username,
     password,
   } = getState().logIn;
 
-  AWSCognitoManager.logIn(id, password)
+  AWSCognitoManager.logIn(username, password)
   .then(() => {
     dispatch({
       type: ON_LOG_IN_RESPONSE,
@@ -47,7 +47,7 @@ export const tryLogIn = () => (dispatch, getState) => new Promise((resolve) => {
   .catch(err => dispatch({
     type: ON_LOG_IN_RESPONSE,
     isSuccess: false,
-    payload: err,
+    error: err,
   }))
   .then(() => {
     resolve();
@@ -59,7 +59,7 @@ export const tryLogIn = () => (dispatch, getState) => new Promise((resolve) => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_ID]: (state, action) => ({ ...state, id: action.payload }),
+  [SET_USERNAME]: (state, action) => ({ ...state, username: action.payload }),
   [SET_PASSWORD]: (state, action) => ({ ...state, password: action.payload }),
   [TRY_LOG_IN]: state => ({
     ...state,
@@ -69,7 +69,7 @@ const ACTION_HANDLERS = {
     ...state,
     currentState: LogInStates.ON_RESPONSE,
     isSuccess: action.isSuccess,
-    error: action.payload,
+    error: action.error,
   }),
 };
 
@@ -77,9 +77,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  userName: '',
+  username: '',
   password: '',
-  email: '',
   currentState: LogInStates.WRITING_INFO,
   isSuccess: false,
   error: null,

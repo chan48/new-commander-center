@@ -1,12 +1,6 @@
 import AWS from 'aws-sdk';
-import userPool from './userPool';
-import signUp from './signUp';
-import logIn from './logIn';
+import * as map from './map';
 
 AWS.config.region = 'ap-northeast-2';
 
-export default {
-  userPool,
-  signUp,
-  logIn,
-};
+export default map;

@@ -3,22 +3,22 @@ import AWSCognitoManager from '../../../AWSCognitoManager';
 // ------------------------------------
 // Action Types
 // ------------------------------------
-export const SET_USER_NAME = 'SET_USER_NAME';
+export const SET_USERNAME = 'SET_USERNAME';
 export const SET_EMAIL = 'SET_EMAIL';
 export const SET_PASSWORD = 'SET_PASSWORD';
 export const TRY_SIGN_UP = 'TRY_SIGN_UP';
 export const ON_SIGN_UP_RESPONSE = 'ON_SIGN_UP_RESPONSE';
 
 export const SignUpStates = {
-  WRITING_ID: 'WRITING_INFO',
+  WRITING_INFO: 'WRITING_INFO',
   WAITING_RESPONSE: 'WAITING_RESPONSE',
   ON_RESPONSE: 'ON_RESPONSE',
 };
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const setUserName = (value = '') => ({
-  type: SET_USER_NAME,
+export const setUsername = (value = '') => ({
+  type: SET_USERNAME,
   payload: value,
 });
 
@@ -40,11 +40,11 @@ export const trySignUp = () => (dispatch, getState) => new Promise((resolve) => 
   console.log(getState());
   const {
     email,
-    userName,
+    username,
     password,
   } = getState().signUp;
 
-  AWSCognitoManager.signUp(userName, email, password)
+  AWSCognitoManager.signUp(username, email, password)
   .then(() => {
     dispatch({
       type: ON_SIGN_UP_RESPONSE,
@@ -54,7 +54,7 @@ export const trySignUp = () => (dispatch, getState) => new Promise((resolve) => 
   .catch(err => dispatch({
     type: ON_SIGN_UP_RESPONSE,
     isSuccess: false,
-    error: err,
+    error: err.toString(),
   }))
   .then(() => {
     resolve();
@@ -66,7 +66,7 @@ export const trySignUp = () => (dispatch, getState) => new Promise((resolve) => 
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_USER_NAME]: (state, action) => ({ ...state, userName: action.payload }),
+  [SET_USERNAME]: (state, action) => ({ ...state, username: action.payload }),
   [SET_EMAIL]: (state, action) => ({ ...state, email: action.payload }),
   [SET_PASSWORD]: (state, action) => ({ ...state, password: action.payload }),
   [TRY_SIGN_UP]: state => ({
@@ -85,10 +85,10 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  userName: '',
+  username: '',
   password: '',
   email: '',
-  currentState: SignUpStates.WRITING_ID,
+  currentState: SignUpStates.WRITING_INFO,
   isSuccess: false,
   error: null,
 };

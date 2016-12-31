@@ -4,7 +4,7 @@ import { SignUpStates } from '../modules/signUp';
 const SignUp = props => (
   <div style={{ margin: '0 auto' }} >
     <h2>User Name:</h2>
-    <input type='text' value={props.userName} onChange={event => props.setUserName(event.target.value)} />
+    <input type='text' value={props.username} onChange={event => props.setUsername(event.target.value)} />
 
     <h2>Email:</h2>
     <input type='text' value={props.email} onChange={event => props.setEmail(event.target.value)} />
@@ -17,16 +17,16 @@ const SignUp = props => (
 
     <h2>{JSON.stringify(props.currentState)}</h2>
     <h2>{JSON.stringify(props.isSuccess)}</h2>
-    <h2>{JSON.stringify(props.error)}</h2>
+    <h2>{props.error ? props.error.toString() : false}</h2>
   </div>
 );
 
 SignUp.propTypes = {
-  setUserName: React.PropTypes.func.isRequired,
+  setUsername: React.PropTypes.func.isRequired,
   setEmail: React.PropTypes.func.isRequired,
   setPassword: React.PropTypes.func.isRequired,
   trySignUp: React.PropTypes.func.isRequired,
-  userName: React.PropTypes.string.isRequired,
+  username: React.PropTypes.string.isRequired,
   password: React.PropTypes.string.isRequired,
   email: React.PropTypes.string.isRequired,
   currentState: React.PropTypes.string.isRequired,

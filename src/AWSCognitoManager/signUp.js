@@ -1,7 +1,7 @@
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import userPool from './userPool';
 
-const signUp = (userName, email, password) => new Promise((resolve, reject) => {
+const signUp = (username, email, password) => new Promise((resolve, reject) => {
   const attributeList = [];
 
   const dataEmail = {
@@ -13,8 +13,7 @@ const signUp = (userName, email, password) => new Promise((resolve, reject) => {
 
   attributeList.push(attributeEmail);
 
-  userPool.signUp(userName, password, attributeList, null, (err) => {
-    console.log(err);
+  userPool.signUp(username, password, attributeList, null, (err) => {
     if (err) {
       return reject(err);
     }

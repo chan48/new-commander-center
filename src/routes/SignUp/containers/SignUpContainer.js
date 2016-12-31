@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import {
-  setUserName,
+  setUsername,
   setEmail,
   setPassword,
   trySignUp,
@@ -18,7 +18,7 @@ import SignUp from '../components/SignUp';
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
-  setUserName,
+  setUsername,
   setEmail,
   setPassword,
   trySignUp,

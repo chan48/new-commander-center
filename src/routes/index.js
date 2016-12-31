@@ -4,6 +4,7 @@ import Home from './Home';
 import Counter from './Counter';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
+import VerifyEmail from './VerifyEmail';
 
 const createRoutes = store => ({
   path: '/',
@@ -13,6 +14,7 @@ const createRoutes = store => ({
     Counter(store),
     SignUp(store),
     LogIn(store),
+    VerifyEmail(store),
   ],
 });
 

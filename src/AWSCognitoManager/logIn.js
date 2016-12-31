@@ -1,29 +1,17 @@
 import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import userPool from './userPool';
 
-
-function validateEmail(email) {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-}
-
-const logIn = (id, password) => new Promise((resolve, reject) => {
+const logIn = (username, password) => new Promise((resolve, reject) => {
   const authenticationData = {
+    Username: username,
     Password : password,
   };
-  const userData = {
-    Pool : userPool,
-  };
-  if (validateEmail(id)) {
-    authenticationData.Email = id;
-    userData.Email = id;
-  } else {
-    authenticationData.Username = id;
-    userData.Username = id;
-  }
-
   const authenticationDetails = new AuthenticationDetails(authenticationData);
 
+  const userData = {
+    Username: username,
+    Pool : userPool,
+  };
   const cognitoUser = new CognitoUser(userData);
 
   cognitoUser.authenticateUser(authenticationDetails, {
